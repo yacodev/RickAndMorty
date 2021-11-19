@@ -1,9 +1,10 @@
 import { getData } from '../services/data_fecth';
 import { URL_CHARACTER } from "../constants";
 import { useEffect} from 'react';
+import countLetters from '../utils/countLetters';
 
 
-export const Characters = ()=>{
+export const Characters = (props)=>{
   
   useEffect(()=>{
     const getAllCharacters = async()=>{
@@ -18,9 +19,9 @@ export const Characters = ()=>{
         nameAllCharacters.push(character.name);
       })
       console.log("ALL NAMES",nameAllCharacters);
-      const allLetters = nameAllCharacters.join();
-      const countC = allLetters.split("c").length - 1;
+      let countC = countLetters(nameAllCharacters,'c')
       console.log("RESULT", countC);
+      props.isLoad(true);
     }
     getAllCharacters();
   },[])
