@@ -1,12 +1,16 @@
 import './App.css';
-import { Character } from './components/Character';
+import { Characters } from './components/Characters';
+import { Episodes } from './components/Episodes';
+import { Locations } from './components/Locations';
 
 function App() {
 
   return (
     <div>
       Rick and morty App
-      <Character />
+      <Characters />
+      <Episodes />
+      <Locations />
     </div>
   );
 }
