@@ -3,15 +3,15 @@ import { URL_CHARACTER } from "../constants";
 import { useEffect} from 'react';
 
 
-export const Character = ()=>{
+export const Characters = ()=>{
   
   useEffect(()=>{
-    const getAllData = async()=>{
-      let dataCharacters = await getData(URL_CHARACTER);
-      let allCharacters = [...dataCharacters.results] 
-      while(dataCharacters.info.next){
-        dataCharacters = await getData(dataCharacters.info.next);
-        allCharacters = [...allCharacters,...dataCharacters.results]
+    const getAllCharacters = async()=>{
+      let chunkCharacters = await getData(URL_CHARACTER);
+      let allCharacters = [...chunkCharacters.results] 
+      while(chunkCharacters.info.next){
+        chunkCharacters = await getData(chunkCharacters.info.next);
+        allCharacters = [...allCharacters,...chunkCharacters.results]
       }
       let nameAllCharacters = []
       allCharacters.forEach((character)=>{
@@ -22,7 +22,7 @@ export const Character = ()=>{
       const countC = allLetters.split("c").length - 1;
       console.log("RESULT", countC);
     }
-    getAllData();
+    getAllCharacters();
   },[])
 
   return(
