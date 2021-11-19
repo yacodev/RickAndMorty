@@ -1,8 +1,9 @@
 import { useEffect } from "react"
 import { URL_LOCATION } from "../constants"
 import { getData } from "../services/data_fecth"
+import countLetters from "../utils/countLetters"
 
-export const Locations = ()=>{
+export const Locations = (props)=>{
   useEffect(()=>{
     const getAllLocations = async()=>{
       let chunkLocations = await getData(URL_LOCATION);
@@ -15,7 +16,9 @@ export const Locations = ()=>{
       allLocations.forEach((location)=>{
         nameAllLocations.push(location.name);
       })
-      console.log("ALL LOCATIONS", nameAllLocations)
+      let countL =countLetters(nameAllLocations, 'l');
+      props.resultCount(countL);
+      props.isLoad(true);
     }
     getAllLocations();
   },[])

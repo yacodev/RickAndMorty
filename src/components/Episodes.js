@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import { URL_EPISODE } from "../constants"
 import { getData } from "../services/data_fecth"
+import countLetters from "../utils/countLetters"
 
 
-export const Episodes = ()=>{
+export const Episodes = (props)=>{
   useEffect(()=>{
     const getAllEpisodes = async()=>{
       let chunkEpisodes= await getData(URL_EPISODE);
@@ -16,7 +17,9 @@ export const Episodes = ()=>{
       allEpisodes.forEach((episode)=>{
         nameAllEpisodes.push(episode.name);
       })
-      console.log("ALL EPISODES", nameAllEpisodes);
+      let countE = countLetters(nameAllEpisodes, "e");
+      props.resultCount(countE);
+      props.isLoad(true);
     }
     getAllEpisodes();
   },[])
