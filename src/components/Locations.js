@@ -16,9 +16,7 @@ export const Locations = (props)=>{
       allLocations.forEach((location)=>{
         nameAllLocations.push(location.name);
       })
-      console.log("ALL LOCATIONS", nameAllLocations)
       let countL =countLetters(nameAllLocations, 'l');
-      console.log("RESULT L:", countL);
       props.resultCount(countL);
       props.isLoad(true);
     }

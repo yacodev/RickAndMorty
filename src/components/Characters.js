@@ -18,9 +18,7 @@ export const Characters = (props)=>{
       allCharacters.forEach((character)=>{
         nameAllCharacters.push(character.name);
       })
-      console.log("ALL NAMES",nameAllCharacters);
       let countC = countLetters(nameAllCharacters,'c')
-      console.log("RESULT", countC);
       props.resultCount(countC);
       props.isLoad(true);
     }

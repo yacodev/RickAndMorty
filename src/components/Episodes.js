@@ -17,9 +17,7 @@ export const Episodes = (props)=>{
       allEpisodes.forEach((episode)=>{
         nameAllEpisodes.push(episode.name);
       })
-      console.log("ALL EPISODES", nameAllEpisodes);
       let countE = countLetters(nameAllEpisodes, "e");
-      console.log("RESULT E", countE);
       props.resultCount(countE);
       props.isLoad(true);
     }
