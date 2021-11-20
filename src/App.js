@@ -3,17 +3,19 @@ import './App.css';
 import { Characters } from './components/Characters';
 import { Episodes } from './components/Episodes';
 import { Locations } from './components/Locations';
+import { formatResult } from './utils/formatResult';
 import getTimeProcess from './utils/getTimeProcess';
-import imagenHeader from "./static/images/rick_and_morty.png"
+import imagenHeader from "./static/images/rick_and_morty_header.png"
 import styled from '@emotion/styled';
+import getCharacterIdWithOrigin from './utils/getCharacterIdWithOrigin';
+import getEpisodesWithLocations from './utils/getEpisodesWithLocations';
 
 const ContainerPage =styled.div`
   display:flex;
   flex-direction:column;
-  background:#f7f6f3
 `
 
-const ContainerImage = styled.div`
+const ContainerImageHeader = styled.div`
   padding:auto;
   width:100%;
   img{
@@ -27,9 +29,12 @@ const ContainerResult = styled.div`
   display:flex;
   flex-direction:row;
   width:100%;
-  gap:200px;
+  gap:80px;
 `
 
+const ContainerImagen = styled.div`
+  margin-top:200px;
+`
 
 function App() {
   const [loadCharacters, setLoadCharacters] = useState(false);
@@ -44,19 +49,29 @@ function App() {
   const [result,setResult]=useState([]);
   const [secondResult,setSecondResult]=useState([]);
 
+
+  useEffect(()=>{
+    if(finishedSecondProcess){
+      localStorage.removeItem("Characters");
+      localStorage.removeItem("Episodes");
+      localStorage.removeItem("Locations");
+      setStartTime(0);
+      setCountC(0);
+      setCountL(0);
+      setCountE(0);
+    }
+  },[finishedSecondProcess])
+
   useEffect(()=>{
     if(loadCharacters && loadLocations && loadEpisodes){
-      let resultCharCounter = { "exercise_name": "Char counter"};
       const firstProcessTime= getTimeProcess(startTime);
+      
       const resultsByChar = [];
       resultsByChar.push({"char": "l", "count":countL, "resource": "location"});
       resultsByChar.push({"char": "e", "count":countE, "resource": "episodes"});
       resultsByChar.push({"char": "c", "count":countC, "resource": "character"});
-      resultCharCounter["time"]= `${firstProcessTime}ms`;
-      resultCharCounter["in_time"] = firstProcessTime<3000;
-      resultCharCounter["results"]= resultsByChar;
+      let resultCharCounter = formatResult("Char counter", firstProcessTime, resultsByChar)
       
-      console.log("RESULT:",resultCharCounter);
       setResult([resultCharCounter]);
       setFinishedFirstProcess(true);
     }
@@ -65,68 +80,47 @@ function App() {
   useEffect(()=>{
     if(finishedFirstProcess){
       setStartTime(Date.now());
-      let resultEpisodeLocation = { "exercise_name": "Episode locations"};
       let episodesWithLocations = [];
-      const allCharacters = JSON.parse(localStorage.getItem('Characters'));
-      let characterIdWithOrigin = {};
-      characterIdWithOrigin= getCharacterIdWithOrigin(allCharacters);
-      const allEpisodes = JSON.parse(localStorage.getItem('Episodes'));
       
+      let characterIdWithOrigin = {};
+      characterIdWithOrigin= getCharacterIdWithOrigin();
+      
+      const allEpisodes = JSON.parse(localStorage.getItem('Episodes'));
       episodesWithLocations = getEpisodesWithLocations(allEpisodes, characterIdWithOrigin);
       const secondProcessTime = getTimeProcess(startTime);
-      resultEpisodeLocation["time"]= `${secondProcessTime}ms`;
-      resultEpisodeLocation["in_time"] = secondProcessTime<3000;
-      resultEpisodeLocation["result"]= episodesWithLocations;
+      
+      let resultEpisodeLocation = formatResult("Episode locations", secondProcessTime, episodesWithLocations);
       setSecondResult([resultEpisodeLocation]);
       setFinishedSecondProcess(true);
-      console.log("RESULT 2:",resultEpisodeLocation);
-      console.log("RESULT TOTAL:",result);
     }
-
+    
   },[finishedFirstProcess])
-
-  function getCharacterIdWithOrigin(allCharacters){
-    let characterIdWithOrigin = {};
-
-    allCharacters.forEach((character)=>{
-      const characterId= character.id;
-      let obj= {};
-      obj[characterId]=character.origin.name;
-      characterIdWithOrigin = {...characterIdWithOrigin,...obj};
-    })
-    return characterIdWithOrigin
-  }
-
-  function getEpisodesWithLocations(allEpisodes, characterIdWithOrigin){
-    let resultEpisodesLocations = [];
-    allEpisodes.forEach((episode)=>{
-      let episodesByLocations = {};
-      episodesByLocations["name"]= episode.name;
-      episodesByLocations["episode"]=episode.episode;
-      episodesByLocations["locations"]=[];
-      let arrayLocationsOrigin = [];
-
-      episode.characters.forEach((character)=>{
-        let characterIdFound = character.match(/\d+/);
-        let locationOrigin = characterIdWithOrigin[characterIdFound[0]];
-        arrayLocationsOrigin.push(locationOrigin);
-      })
-
-      episodesByLocations["locations"] = [... new Set(arrayLocationsOrigin)]
-      resultEpisodesLocations.push(episodesByLocations);
-    })
-    return resultEpisodesLocations
-  }
 
   return (
     <ContainerPage>
-      <ContainerImage>
+      <ContainerImageHeader>
         <img src={imagenHeader} alt="imagen header" width="1000px"/>
-      </ContainerImage>
-      <Characters isLoad={setLoadCharacters} resultCount={setCountC}/>
-      <Episodes isLoad={setLoadEpisodes} resultCount={setCountE}/>
-      <Locations isLoad={setLoadLocations} resultCount={setCountL}/>
+      </ContainerImageHeader>
+      <Characters 
+        isLoad={setLoadCharacters}
+        resultCount={setCountC}
+      />
+      <Episodes 
+        isLoad={setLoadEpisodes}
+        resultCount={setCountE}
+      />
+      <Locations
+        isLoad={setLoadLocations}
+        resultCount={setCountL}
+      />
       <ContainerResult>
+        <ContainerImagen>
+          <img 
+            src="https://www.freepnglogos.com/uploads/rick-and-morty-png/rick-and-morty-mind-bending-season-mysteries-quidd-6.png" 
+            width="300" 
+            alt="rick and morty mind bending season mysteries quidd" 
+          />
+        </ContainerImagen>
         <div>
           <pre>
             {JSON.stringify(result, null, 2)}
