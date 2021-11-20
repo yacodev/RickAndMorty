@@ -28,7 +28,6 @@ export const Characters = (props)=>{
 
   return(
     <>
-      CHARACTERS
     </>
   )
 }

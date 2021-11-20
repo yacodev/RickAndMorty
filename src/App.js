@@ -4,6 +4,31 @@ import { Characters } from './components/Characters';
 import { Episodes } from './components/Episodes';
 import { Locations } from './components/Locations';
 import getTimeProcess from './utils/getTimeProcess';
+import imagenHeader from "./static/images/rick_and_morty.png"
+import styled from '@emotion/styled';
+
+const ContainerPage =styled.div`
+  display:flex;
+  flex-direction:column;
+  background:#f7f6f3
+`
+
+const ContainerImage = styled.div`
+  padding:auto;
+  width:100%;
+  img{
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+  }
+`
+
+const ContainerResult = styled.div`
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  gap:200px;
+`
 
 
 function App() {
@@ -94,20 +119,26 @@ function App() {
   }
 
   return (
-    <div>
-      Rick and morty App
+    <ContainerPage>
+      <ContainerImage>
+        <img src={imagenHeader} alt="imagen header" width="1000px"/>
+      </ContainerImage>
       <Characters isLoad={setLoadCharacters} resultCount={setCountC}/>
       <Episodes isLoad={setLoadEpisodes} resultCount={setCountE}/>
       <Locations isLoad={setLoadLocations} resultCount={setCountL}/>
-      <div>
-        <pre>
-          {JSON.stringify(result, null, 2)}
-        </pre>
-        <pre>
-          {JSON.stringify(secondResult, null, 2)}
-        </pre>
-      </div>
-    </div>
+      <ContainerResult>
+        <div>
+          <pre>
+            {JSON.stringify(result, null, 2)}
+          </pre>
+        </div>
+        <div>
+          <pre>
+            {JSON.stringify(secondResult, null, 2)}
+          </pre>
+        </div>
+      </ContainerResult>
+    </ContainerPage>
   );
 }
 
