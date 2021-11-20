@@ -12,6 +12,7 @@ export const Locations = (props)=>{
         chunkLocations = await getData(chunkLocations.info.next);
         allLocations = [...allLocations, ...chunkLocations.results];
       }
+      localStorage.setItem("Locations", JSON.stringify(allLocations));
       let nameAllLocations = [];
       allLocations.forEach((location)=>{
         nameAllLocations.push(location.name);

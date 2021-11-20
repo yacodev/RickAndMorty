@@ -13,7 +13,9 @@ export const Episodes = (props)=>{
         chunkEpisodes = await getData(chunkEpisodes.info.next);
         allEpisodes = [...allEpisodes,...chunkEpisodes.results];
       }
-      let nameAllEpisodes = []
+      localStorage.setItem("Episodes", JSON.stringify(allEpisodes));
+      let nameAllEpisodes = [];
+      
       allEpisodes.forEach((episode)=>{
         nameAllEpisodes.push(episode.name);
       })
