@@ -9,12 +9,13 @@ export const Characters = (props)=>{
   useEffect(()=>{
     const getAllCharacters = async()=>{
       let chunkCharacters = await getData(URL_CHARACTER);
-      let allCharacters = [...chunkCharacters.results] 
+      let allCharacters = [...chunkCharacters.results];
       while(chunkCharacters.info.next){
         chunkCharacters = await getData(chunkCharacters.info.next);
-        allCharacters = [...allCharacters,...chunkCharacters.results]
+        allCharacters = [...allCharacters,...chunkCharacters.results];
       }
-      let nameAllCharacters = []
+      localStorage.setItem("Characters", JSON.stringify(allCharacters));
+      let nameAllCharacters = [];
       allCharacters.forEach((character)=>{
         nameAllCharacters.push(character.name);
       })
