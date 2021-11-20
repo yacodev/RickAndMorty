@@ -4,6 +4,32 @@ import { Characters } from './components/Characters';
 import { Episodes } from './components/Episodes';
 import { Locations } from './components/Locations';
 import getTimeProcess from './utils/getTimeProcess';
+import imagenHeader from "./static/images/rick_and_morty.png"
+import styled from '@emotion/styled';
+
+const ContainerPage =styled.div`
+  display:flex;
+  flex-direction:column;
+  background:#f7f6f3
+`
+
+const ContainerImage = styled.div`
+  padding:auto;
+  width:100%;
+  img{
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+  }
+`
+
+const ContainerResult = styled.div`
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  gap:200px;
+`
+
 
 function App() {
   const [loadCharacters, setLoadCharacters] = useState(false);
@@ -14,12 +40,24 @@ function App() {
   const [countL, setCountL]=useState(0)
   const [countC, setCountC]=useState(0)
   const [finishedFirstProcess, setFinishedFirstProcess] = useState(false);
+  const [finishedSecondProcess, setFinishedSecondProcess] = useState(false);
+  const [result,setResult]=useState([]);
+  const [secondResult,setSecondResult]=useState([]);
 
   useEffect(()=>{
     if(loadCharacters && loadLocations && loadEpisodes){
+      let resultCharCounter = { "exercise_name": "Char counter"};
       const firstProcessTime= getTimeProcess(startTime);
-      console.log("TIME PROCESS1:", firstProcessTime);
-      console.log("RESULT:",countE,countC,countL);
+      const resultsByChar = [];
+      resultsByChar.push({"char": "l", "count":countL, "resource": "location"});
+      resultsByChar.push({"char": "e", "count":countE, "resource": "episodes"});
+      resultsByChar.push({"char": "c", "count":countC, "resource": "character"});
+      resultCharCounter["time"]= `${firstProcessTime}ms`;
+      resultCharCounter["in_time"] = firstProcessTime<3000;
+      resultCharCounter["results"]= resultsByChar;
+      
+      console.log("RESULT:",resultCharCounter);
+      setResult([resultCharCounter]);
       setFinishedFirstProcess(true);
     }
   },[loadCharacters, loadLocations, loadEpisodes])
@@ -27,16 +65,22 @@ function App() {
   useEffect(()=>{
     if(finishedFirstProcess){
       setStartTime(Date.now());
-      let resultEpisodesLocations = [];
+      let resultEpisodeLocation = { "exercise_name": "Episode locations"};
+      let episodesWithLocations = [];
       const allCharacters = JSON.parse(localStorage.getItem('Characters'));
       let characterIdWithOrigin = {};
       characterIdWithOrigin= getCharacterIdWithOrigin(allCharacters);
       const allEpisodes = JSON.parse(localStorage.getItem('Episodes'));
       
-      resultEpisodesLocations = getEpisodesWithLocations(allEpisodes, characterIdWithOrigin);
-      console.log("result final", resultEpisodesLocations);
+      episodesWithLocations = getEpisodesWithLocations(allEpisodes, characterIdWithOrigin);
       const secondProcessTime = getTimeProcess(startTime);
-      console.log("TIME PROCESS2:", secondProcessTime);
+      resultEpisodeLocation["time"]= `${secondProcessTime}ms`;
+      resultEpisodeLocation["in_time"] = secondProcessTime<3000;
+      resultEpisodeLocation["result"]= episodesWithLocations;
+      setSecondResult([resultEpisodeLocation]);
+      setFinishedSecondProcess(true);
+      console.log("RESULT 2:",resultEpisodeLocation);
+      console.log("RESULT TOTAL:",result);
     }
 
   },[finishedFirstProcess])
@@ -75,12 +119,26 @@ function App() {
   }
 
   return (
-    <div>
-      Rick and morty App
+    <ContainerPage>
+      <ContainerImage>
+        <img src={imagenHeader} alt="imagen header" width="1000px"/>
+      </ContainerImage>
       <Characters isLoad={setLoadCharacters} resultCount={setCountC}/>
       <Episodes isLoad={setLoadEpisodes} resultCount={setCountE}/>
       <Locations isLoad={setLoadLocations} resultCount={setCountL}/>
-    </div>
+      <ContainerResult>
+        <div>
+          <pre>
+            {JSON.stringify(result, null, 2)}
+          </pre>
+        </div>
+        <div>
+          <pre>
+            {JSON.stringify(secondResult, null, 2)}
+          </pre>
+        </div>
+      </ContainerResult>
+    </ContainerPage>
   );
 }
 
