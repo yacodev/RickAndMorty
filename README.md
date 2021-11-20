@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Chipax Challenge - Rick and Morty API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Solution of challenge Rick and Morty from Chipax.
 
-## Available Scripts
+## Demo
 
-In the project directory, you can run:
+You can view the demo [hear](https://yacodev.github.io/RickAndMorty/).
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Estructura del repositorio
 
-### `yarn test`
+This repository has the following  organization:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ├── src                     # React - app
+        ├── components
+            ├── Character          # Get all data of Characters from API.
+            ├── Episodes           # Get all data of Episodes from API.
+            ├── Locations          # Get all data of Locations from API. 
+        ├── services
+            ├── data_fecth         # Service to get data from API.
+        ├── static
+            ├── images             # Images to header home pages.
+        ├── utils                      
+            ├── countLetters                # Function in charge count letter in array.
+            ├── formatResult                # Function give JSON format to results.
+            ├── getCharacterIdWithOrigin    # Function return object with keys is characterId and the value is origin
+            ├── getEpisodesWithLocations    # Function return array with all episodes with character's locations origin 
+            ├── getTimeProcess              # Function calculate the duration of the process.
+    └── README.md                   # README
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Details
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* Using React hooks.
+* Using React components.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Library
 
-### `yarn eject`
+* gh-pages -> to generate a github pages.
+* emotion-styled  -> to write css directly in the component
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Request
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Git
+* Node.js 14.15.2
+* npm
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Inicio de la aplicación
 
-## Learn More
+* Clone the repository.
+* npm install
+* npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Tests
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Se utilizó Cucumber para la definición e implementación de los escenarios de pruebas funcionales. Para ejecutar: `npm test`
