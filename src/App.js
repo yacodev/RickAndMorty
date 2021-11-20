@@ -14,12 +14,21 @@ function App() {
   const [countL, setCountL]=useState(0)
   const [countC, setCountC]=useState(0)
   const [finishedFirstProcess, setFinishedFirstProcess] = useState(false);
+  const [result,setResult]=useState([]);
 
   useEffect(()=>{
     if(loadCharacters && loadLocations && loadEpisodes){
+      let resultCharCounter = { "exercise_name": "Char counter"};
       const firstProcessTime= getTimeProcess(startTime);
-      console.log("TIME PROCESS1:", firstProcessTime);
-      console.log("RESULT:",countE,countC,countL);
+      const resultsByChar = [];
+      resultsByChar.push({"char": "l", "count":countL, "resource": "location"});
+      resultsByChar.push({"char": "e", "count":countE, "resource": "episodes"});
+      resultsByChar.push({"char": "c", "count":countC, "resource": "character"});
+      resultCharCounter["results"]= resultsByChar;
+      resultCharCounter["time"]= `${firstProcessTime}ms`;
+      resultCharCounter["in_time"] = firstProcessTime<3000;
+      
+      console.log("RESULT:",resultCharCounter);
       setFinishedFirstProcess(true);
     }
   },[loadCharacters, loadLocations, loadEpisodes])
@@ -27,16 +36,19 @@ function App() {
   useEffect(()=>{
     if(finishedFirstProcess){
       setStartTime(Date.now());
-      let resultEpisodesLocations = [];
+      let resultEpisodeLocation = { "exercise_name": "Episode locations"};
+      let episodesWithLocations = [];
       const allCharacters = JSON.parse(localStorage.getItem('Characters'));
       let characterIdWithOrigin = {};
       characterIdWithOrigin= getCharacterIdWithOrigin(allCharacters);
       const allEpisodes = JSON.parse(localStorage.getItem('Episodes'));
       
-      resultEpisodesLocations = getEpisodesWithLocations(allEpisodes, characterIdWithOrigin);
-      console.log("result final", resultEpisodesLocations);
+      episodesWithLocations = getEpisodesWithLocations(allEpisodes, characterIdWithOrigin);
       const secondProcessTime = getTimeProcess(startTime);
-      console.log("TIME PROCESS2:", secondProcessTime);
+      resultEpisodeLocation["result"]= episodesWithLocations;
+      resultEpisodeLocation["time"]= `${secondProcessTime}ms`;
+      resultEpisodeLocation["in_time"] = secondProcessTime<3000;
+      console.log("RESULT 2:",resultEpisodeLocation);
     }
 
   },[finishedFirstProcess])
