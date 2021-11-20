@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { URL_EPISODE } from "../constants"
 import { getData } from "../services/data_fecth"
 import countLetters from "../utils/countLetters"
