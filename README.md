@@ -4,7 +4,7 @@ Solution of challenge Rick and Morty from Chipax.
 
 ## Demo
 
-You can view the demo [hear](https://yacodev.github.io/RickAndMorty/).
+You can view the demo [here](https://yacodev.github.io/RickAndMorty/).
 
 
 
