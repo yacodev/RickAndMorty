@@ -55,4 +55,4 @@ This repository has the following  organization:
 
 ## Tests
 
-Se utilizó Cucumber para la definición e implementación de los escenarios de pruebas funcionales. Para ejecutar: `npm test`
+* testing-library/react, for execute  `npm test`
